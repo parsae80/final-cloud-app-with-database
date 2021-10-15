@@ -103,7 +103,7 @@ class Enrollment(models.Model):
     # Other fields and methods you would like to design
 class Question(models.Model):
     # Foreign key to lesson
-    related_lesson = models.ForeignKey(Lesson)
+    related_lesson = models.ForeignKey(Lesson, on_delete = models.CASCADE)
     # question text
     text = models.CharField(max_length = 2000)
     # question grade/mark
