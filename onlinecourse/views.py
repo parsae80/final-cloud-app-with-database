@@ -90,7 +90,7 @@ class CourseDetailView(generic.DetailView):
 
 
 def enroll(request, course_id):
-    course = get_object_or_404(Course, pk=course_id)
+    course = get_object_or_404(Course, id=course_id)
     user = request.user
 
     is_enrolled = check_if_enrolled(user, course)
@@ -113,9 +113,8 @@ def enroll(request, course_id):
 #def submit(request, course_id):
 def submit(request, course_id, lesson_id):
     user = request.user
-    lesson = Lesson.objects.get(pk=lesson_id)
-    #course = Course.objects.get(pk=lesson.course_id)
-    course = Course.objects.get(pk=course_id)
+    lesson = Lesson.objects.get(id=lesson_id)
+    course = Course.objects.get(id=course_id)
     enrollment = Enrollment.objects.get(user=user, course=course)
     submission = Submission.objects.create(enrollment=enrollment)
     selected_choices = extract_answers(request)
@@ -133,17 +132,11 @@ def extract_answers(request):
     return submitted_anwsers
 
 
-# <HINT> Create an exam result view to check if learner passed exam and show their question results and result for each question,
-# you may implement it based on the following logic:
-        # Get course and submission based on their ids
-        # Get the selected choice ids from the submission record
-        # For each selected choice, check if it is a correct answer or not
-        # Calculate the total score
 def show_exam_result(request, course_id, lesson_id, submission_id):
     context = {}
     
-    course = Course.objects.get(pk=course_id)
-    lesson = Lesson.objects.get(pk=lesson_id)
+    course = Course.objects.get(id=course_id)
+    lesson = Lesson.objects.get(id=lesson_id)
     submission = Submission.objects.get(pk=submission_id)
     selected_choices = submission.choices.all()
     questions = lesson.question_set.all()
